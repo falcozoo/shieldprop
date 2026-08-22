@@ -309,7 +309,7 @@ function Pricing() {
               Start 3-day trial
             </a>
             <p className="mt-2 text-center text-[11px] text-muted">
-              Then $47/month · cancel anytime
+              Then $47/month · cancel anytime · + tax where applicable
             </p>
           </div>
 
@@ -346,7 +346,7 @@ function Pricing() {
               Get 1 year for $249
             </a>
             <p className="mt-2 text-center text-[11px] text-muted">
-              One payment · save $315 vs monthly
+              One payment · save $315 vs monthly · + tax where applicable
             </p>
           </div>
         </div>
