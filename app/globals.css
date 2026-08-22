@@ -1,0 +1,32 @@
+@import "./geist_embed.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  background: #fbfbfa;
+  color: #131722;
+  font-family: "Geist", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  letter-spacing: -0.011em;
+}
+
+/* Tabular numbers for countdowns and KPIs */
+.tabnum {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Fine grid texture reused from the maquette (subtle, premium) */
+.dotgrid {
+  background-image: radial-gradient(#eceae4 1px, transparent 1px);
+  background-size: 22px 22px;
+}
