@@ -54,7 +54,7 @@ function Hero() {
           </a>
         </div>
         <p className="mt-3 text-sm text-muted">
-          No card needed for the free plan · Cancel anytime
+          3-day trial · then $47/month · Cancel anytime
         </p>
 
         {/* Danger card preview — CLEAR card, red hairline (no black glow) */}
@@ -265,92 +265,92 @@ function HowItWorks() {
 
 /* -------------------------------------------------------------- PRICING */
 function Pricing() {
-  const plans = [
-    {
-      name: "Free",
-      price: "€0",
-      hook: "To discover the anti-elimination approach.",
-      cta: "Create free account",
-      featured: false,
-      features: ["Risk-window calendar (preview)", "Limited fundamental briefing", "1 prop firm of your choice"],
-    },
-    {
-      name: "Pro",
-      price: "€49",
-      hook: "For the funded trader who wants to last.",
-      cta: "Start 3-day trial",
-      featured: true,
-      badge: "Most popular",
-      features: [
-        "Full calendar, tailored per firm",
-        "Unlimited news-window alerts",
-        "Complete daily fundamental analysis",
-        "Liquidity zones & traps on chart",
-        "Access to all supported firms",
-      ],
-    },
-    {
-      name: "Elite",
-      price: "€99",
-      hook: "Everything ShieldProp, maxed out.",
-      cta: "Start 3-day trial",
-      featured: false,
-      features: [
-        "Everything in Pro",
-        "Deep, priority market analysis",
-        "Advanced real-time alerts",
-        "Early access to new features",
-        "Priority partner codes & offers",
-      ],
-    },
+  const features = [
+    "Full risk-window calendar, tailored to your firm",
+    "Unlimited news-window alerts",
+    "Complete daily fundamental briefing",
+    "Liquidity zones & traps on chart",
+    "Access to all supported firms",
+    "Partner promo codes & offers",
   ];
 
   return (
     <section id="pricing" className="border-b border-line bg-card">
-      <div className="mx-auto max-w-6xl px-5 py-20">
-        <h2 className="text-3xl font-semibold tracking-tightish text-ink sm:text-4xl">
-          A plan for every stage. No commitment.
+      <div className="mx-auto max-w-5xl px-5 py-20">
+        <h2 className="text-center text-3xl font-semibold tracking-tightish text-ink sm:text-4xl">
+          One plan. Everything included.
         </h2>
-        <p className="mt-2 text-muted">3-day trial on paid plans. Cancel in one click.</p>
+        <p className="mx-auto mt-2 max-w-xl text-center text-muted">
+          No tiers, no upsells. Pick monthly or save big with yearly.
+        </p>
 
-        <div className="mt-12 grid gap-6 md:grid-cols-3">
-          {plans.map((p) => (
-            <div
-              key={p.name}
-              className={`relative flex flex-col rounded-xl2 border bg-paper p-6 ${
-                p.featured ? "border-ink shadow-card" : "border-line"
-              }`}
+        <div className="mt-12 grid gap-6 md:grid-cols-2 md:items-stretch">
+          {/* MONTHLY */}
+          <div className="flex flex-col rounded-xl2 border border-line bg-paper p-8">
+            <p className="text-sm font-semibold uppercase tracking-wide text-muted">Monthly</p>
+            <p className="mt-3 tabnum text-5xl font-semibold tracking-tightish text-ink">
+              $47<span className="text-base font-normal text-muted"> / month</span>
+            </p>
+            <p className="mt-2 text-sm text-muted">Start with a 3-day trial. Cancel anytime.</p>
+
+            <ul className="mt-6 flex-1 space-y-2.5 text-sm text-ink/80">
+              {features.map((f) => (
+                <li key={f} className="flex gap-2">
+                  <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-ok" />
+                  {f}
+                </li>
+              ))}
+            </ul>
+
+            <a
+              href="#"
+              className="mt-8 rounded-lg border border-line bg-card px-5 py-3 text-center text-sm font-semibold text-ink transition-colors hover:bg-paper"
             >
-              {p.badge && (
-                <span className="absolute -top-3 left-6 rounded-full bg-ink px-3 py-1 text-[11px] font-semibold text-paper">
-                  {p.badge}
-                </span>
-              )}
-              <p className="text-sm font-semibold uppercase tracking-wide text-muted">{p.name}</p>
-              <p className="mt-2 tabnum text-4xl font-semibold tracking-tightish text-ink">
-                {p.price}
-                <span className="text-base font-normal text-muted"> / month</span>
+              Start 3-day trial
+            </a>
+            <p className="mt-2 text-center text-[11px] text-muted">
+              Then $47/month · cancel anytime
+            </p>
+          </div>
+
+          {/* YEARLY — featured, promo */}
+          <div className="relative flex flex-col rounded-xl2 border-2 border-ink bg-paper p-8 shadow-card">
+            <span className="absolute -top-3 left-8 rounded-full bg-danger px-3 py-1 text-[11px] font-semibold text-paper">
+              Save 56% · limited offer
+            </span>
+            <p className="text-sm font-semibold uppercase tracking-wide text-muted">Yearly</p>
+
+            <div className="mt-3 flex items-end gap-3">
+              <p className="tabnum text-5xl font-semibold tracking-tightish text-ink">
+                $249<span className="text-base font-normal text-muted"> / year</span>
               </p>
-              <p className="mt-2 text-sm text-muted">{p.hook}</p>
-              <ul className="mt-5 flex-1 space-y-2 text-sm text-ink/80">
-                {p.features.map((f) => (
-                  <li key={f} className="flex gap-2">
-                    <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-ok" />
-                    {f}
-                  </li>
-                ))}
-              </ul>
-              <a
-                href="#"
-                className={`mt-6 rounded-lg px-5 py-3 text-center text-sm font-semibold transition-opacity hover:opacity-90 ${
-                  p.featured ? "bg-ink text-paper" : "border border-line bg-card text-ink"
-                }`}
-              >
-                {p.cta}
-              </a>
             </div>
-          ))}
+            <p className="mt-2 text-sm text-muted">
+              <span className="tabnum text-ink/50 line-through">$564</span>{" "}
+              <span className="font-medium text-ink">— that&apos;s ~$20.75/month</span>, billed yearly.
+            </p>
+
+            <ul className="mt-6 flex-1 space-y-2.5 text-sm text-ink/80">
+              {features.map((f) => (
+                <li key={f} className="flex gap-2">
+                  <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-ok" />
+                  {f}
+                </li>
+              ))}
+            </ul>
+
+            <a
+              href="#"
+              className="mt-8 rounded-lg bg-ink px-5 py-3 text-center text-sm font-semibold text-paper transition-opacity hover:opacity-90"
+            >
+              Get 1 year for $249
+            </a>
+            <p className="mt-2 text-center text-[11px] text-muted">
+              One payment · save $315 vs monthly
+            </p>
+          </div>
         </div>
+
         <p className="mt-6 text-center text-[11px] text-muted">
           No plan guarantees a trading outcome. ShieldProp provides information and tools, not profits.
         </p>
@@ -367,7 +367,7 @@ function Faq() {
     ["Is ShieldProp affiliated with the prop firms you mention?", "We have affiliate partnerships with some firms, which lets us offer promo codes. Those links are always clearly labeled. Otherwise, brands are mentioned for reference only: ShieldProp is independent, neither endorsed nor operated by these companies."],
     ["Does the restricted-windows calendar replace my firm's rules?", "No. It's an informational aid. Your prop firm's official rules always take precedence. Always check the current terms directly with your firm — that's your responsibility, not ours."],
     ["Is futures trading risky?", "Yes. Futures trading carries a high risk of loss and isn't suitable for everyone. You can lose more than your initial stake. ShieldProp does not reduce that market risk — it only helps you stay better informed."],
-    ["How do the trial and cancellation work?", "Paid plans include a 3-day trial. You can cancel anytime in one click, no questions asked. The Free plan stays available with no card required."],
+    ["How do the trial and cancellation work?", "The monthly plan includes a 3-day trial, then bills $47/month — cancel anytime in one click. The yearly plan is billed once at $249 (no trial) and saves you 56% versus paying monthly."],
   ];
   return (
     <section id="faq" className="border-b border-line">
@@ -402,10 +402,10 @@ function FinalCta() {
             Start your 3-day trial
           </a>
           <a href="#pricing" className="rounded-lg border border-line bg-card px-6 py-3 text-base font-semibold text-ink transition-colors hover:bg-paper">
-            Start for free
+            Get 1 year for $249
           </a>
         </div>
-        <p className="mt-3 text-sm text-muted">No card for the free plan · Cancel anytime</p>
+        <p className="mt-3 text-sm text-muted">3-day trial on monthly · yearly saves 56%</p>
       </div>
     </section>
   );

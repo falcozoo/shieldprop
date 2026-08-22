@@ -25,7 +25,7 @@ export function Header() {
             href="#pricing"
             className="rounded-lg bg-ink px-4 py-2 text-sm font-semibold text-paper transition-opacity hover:opacity-90"
           >
-            Start free
+            Start trial
           </a>
         </div>
       </div>
