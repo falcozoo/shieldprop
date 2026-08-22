@@ -340,7 +340,7 @@ function Pricing() {
             </ul>
 
             <a
-              href="https://whop.com/shieldprop/shieldprop-cb"
+              href="https://whop.com/checkout/plan_fx4k0zgho5HVG"
               className="mt-8 rounded-lg bg-ink px-5 py-3 text-center text-sm font-semibold text-paper transition-opacity hover:opacity-90"
             >
               Get 1 year for $249
@@ -401,7 +401,7 @@ function FinalCta() {
           <a href="#pricing" className="rounded-lg bg-ink px-6 py-3 text-base font-semibold text-paper transition-opacity hover:opacity-90">
             Start your 3-day trial
           </a>
-          <a href="https://whop.com/shieldprop/shieldprop-cb" className="rounded-lg border border-line bg-card px-6 py-3 text-base font-semibold text-ink transition-colors hover:bg-paper">
+          <a href="https://whop.com/checkout/plan_fx4k0zgho5HVG" className="rounded-lg border border-line bg-card px-6 py-3 text-base font-semibold text-ink transition-colors hover:bg-paper">
             Get 1 year for $249
           </a>
         </div>
