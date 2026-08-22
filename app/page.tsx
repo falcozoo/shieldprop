@@ -303,7 +303,7 @@ function Pricing() {
             </ul>
 
             <a
-              href="https://whop.com/shieldprop/shieldprop-64"
+              href="https://whop.com/checkout/plan_UJxREflciBpe3"
               className="mt-8 rounded-lg border border-line bg-card px-5 py-3 text-center text-sm font-semibold text-ink transition-colors hover:bg-paper"
             >
               Start 3-day trial
