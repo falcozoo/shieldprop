@@ -14,7 +14,7 @@
  */
 
 import { useEffect, useMemo, useState } from "react";
-import { FIRMS } from "@/lib/firms";
+import { FIRMS, getFirm } from "@/lib/firms";
 import {
   computeDayVerdict,
   type FirmSelection,
@@ -276,6 +276,9 @@ export default function TradingDay() {
               )}
             </div>
           )}
+
+          {/* Full rules cards for each selected firm */}
+          <RulesCards selections={selections} />
         </>
       )}
     </div>
@@ -291,23 +294,27 @@ function StatusBanner({
   now: Date;
   tz: string;
 }) {
-  const { blockedNow, resumeAt, nextBlackoutStart, nextEventTitle, nextEventCurrency } =
+  const { blockedNow, resumeAt, nextBlackoutStart, nextEventTitle, nextEventCurrency, nextWindowKind } =
     verdict;
+
+  const isClose = nextWindowKind === "close";
 
   if (blockedNow && resumeAt) {
     const ms = new Date(resumeAt).getTime() - now.getTime();
     return (
       <div className="rounded-xl2 border border-l-4 border-line border-l-danger bg-card p-5 shadow-card">
         <div className="font-mono text-[11px] uppercase tracking-wide text-danger">
-          Do not trade — news window
+          {isClose ? "Do not trade — mandatory close" : "Do not trade — news window"}
         </div>
         <div className="mt-1 text-2xl font-semibold tracking-tightish text-ink">
           Stay flat for{" "}
           <span className="tabular-nums text-danger">{fmtCountdown(ms)}</span>
         </div>
         <p className="mt-1 text-sm text-muted">
-          {nextEventCurrency} · {nextEventTitle}. You can resume at{" "}
-          {fmtTime(resumeAt, tz)}.
+          {isClose
+            ? "Mandatory daily close is in effect."
+            : `${nextEventCurrency} · ${nextEventTitle}.`}{" "}
+          {isClose ? "" : `You can resume at ${fmtTime(resumeAt, tz)}.`}
         </p>
       </div>
     );
@@ -321,12 +328,18 @@ function StatusBanner({
           Clear to trade
         </div>
         <div className="mt-1 text-2xl font-semibold tracking-tightish text-ink">
-          Next blackout in{" "}
+          {isClose ? "Mandatory close in " : "Next blackout in "}
           <span className="tabular-nums">{fmtCountdown(ms)}</span>
         </div>
         <p className="mt-1 text-sm text-muted">
-          Be flat by {fmtTime(nextBlackoutStart, tz)} for {nextEventCurrency} ·{" "}
-          {nextEventTitle}.
+          {isClose ? (
+            <>Be flat by {fmtTime(nextBlackoutStart, tz)} (mandatory daily close).</>
+          ) : (
+            <>
+              Be flat by {fmtTime(nextBlackoutStart, tz)} for {nextEventCurrency} ·{" "}
+              {nextEventTitle}.
+            </>
+          )}
         </p>
       </div>
     );
@@ -390,23 +403,34 @@ function DayTimeline({
             >
               <div className="flex items-center justify-between">
                 <span className="font-mono text-[11px] uppercase tracking-wide text-danger">
-                  Do not trade{active ? " · now" : ""}
+                  {w.kind === "close" ? "Mandatory flat" : "Do not trade"}
+                  {active ? " · now" : ""}
                 </span>
                 <span className="tabular-nums text-sm font-medium text-ink">
-                  {fmtTime(w.start, tz)} – {fmtTime(w.end, tz)}
+                  {w.kind === "close"
+                    ? `from ${fmtTime(w.start, tz)}`
+                    : `${fmtTime(w.start, tz)} – ${fmtTime(w.end, tz)}`}
                 </span>
               </div>
               <div className="mt-1 text-sm text-ink">
-                {w.currency} · {w.eventTitle}
+                {w.kind === "close"
+                  ? "Close all positions before end of day"
+                  : `${w.currency} · ${w.eventTitle}`}
               </div>
               <div className="mt-1 text-[12px] text-muted">
-                Blocked by:{" "}
-                {w.firms
-                  .map(
-                    (f) =>
-                      `${f.name} (${f.minutesBefore}m before / ${f.minutesAfter}m after)`,
-                  )
-                  .join(" · ")}
+                {w.kind === "close" ? (
+                  <>Required by: {w.firms.map((f) => f.name).join(" · ")}</>
+                ) : (
+                  <>
+                    Blocked by:{" "}
+                    {w.firms
+                      .map(
+                        (f) =>
+                          `${f.name} (${f.minutesBefore}m before / ${f.minutesAfter}m after)`,
+                      )
+                      .join(" · ")}
+                  </>
+                )}
               </div>
             </li>
           );
@@ -436,6 +460,89 @@ function DayTimeline({
           </ul>
         </div>
       )}
+    </div>
+  );
+}
+
+function RulesCards({
+  selections,
+}: {
+  selections: FirmSelection[];
+}) {
+  if (selections.length === 0) return null;
+
+  return (
+    <div className="mt-6">
+      <div className="mb-2 font-mono text-[11px] uppercase tracking-wide text-muted">
+        Your firm rules
+      </div>
+      <div className="space-y-3">
+        {selections.map((sel) => {
+          const firm = getFirm(sel.id);
+          if (!firm) return null;
+          return (
+            <div
+              key={sel.id}
+              className="rounded-xl2 border border-line bg-card p-4 shadow-card"
+            >
+              <div className="flex items-center justify-between">
+                <span className="font-medium text-ink">{firm.name}</span>
+                {firm.kind === "blackout" && firm.fundedOnly && (
+                  <span className="rounded border border-line px-2 py-0.5 text-[11px] text-muted">
+                    {sel.funded ? "Funded" : "Evaluation"}
+                  </span>
+                )}
+              </div>
+
+              <dl className="mt-3 grid grid-cols-1 gap-x-6 gap-y-2 sm:grid-cols-2">
+                {firm.rules.map((r, i) => (
+                  <div key={i} className="border-b border-line pb-2">
+                    <dt className="text-[11px] uppercase tracking-wide text-muted">
+                      {r.label}
+                    </dt>
+                    <dd className="text-sm text-ink">
+                      {r.value}
+                      {r.note && (
+                        <span className="block text-[11px] text-muted">
+                          {r.note}
+                        </span>
+                      )}
+                    </dd>
+                  </div>
+                ))}
+                {firm.closeTimeET && (
+                  <div className="border-b border-line pb-2">
+                    <dt className="text-[11px] uppercase tracking-wide text-muted">
+                      Daily close
+                    </dt>
+                    <dd className="text-sm text-ink">
+                      {firm.closeTimeET} ET
+                      {firm.closeNote && (
+                        <span className="block text-[11px] text-muted">
+                          {firm.closeNote}
+                        </span>
+                      )}
+                    </dd>
+                  </div>
+                )}
+              </dl>
+
+              <a
+                href={firm.source}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-3 inline-block text-[12px] text-muted underline hover:text-ink"
+              >
+                Official rules ↗
+              </a>
+            </div>
+          );
+        })}
+      </div>
+      <p className="mt-3 text-[11px] text-muted">
+        Rule values shown for common account sizes and can vary by size/plan.
+        Informational only — always confirm your firm&apos;s current rules.
+      </p>
     </div>
   );
 }
