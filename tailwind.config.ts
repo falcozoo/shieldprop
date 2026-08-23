@@ -37,6 +37,22 @@ const config: Config = {
     },
   },
   plugins: [],
+  safelist: [
+    // Risk-level classes are composed dynamically in Calendar.tsx, so JIT
+    // cannot see them in the source — safelist them explicitly.
+    "bg-danger",
+    "bg-caution",
+    "bg-ok",
+    "bg-danger/10",
+    "bg-caution/10",
+    "bg-ok/10",
+    "text-danger",
+    "text-caution",
+    "text-ok",
+    "border-l-danger",
+    "border-l-caution",
+    "border-l-ok",
+  ],
 };
 
 export default config;
